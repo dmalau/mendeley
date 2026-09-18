@@ -60,12 +60,12 @@
   <macro name="access">
     <choose>
       <if variable="DOI">
-        <text variable="DOI" prefix=" https://doi.org/"/>
+        <text variable="DOI" prefix="https://doi.org/"/>
       </if>
     </choose>
   </macro>
 
-  <!-- In-text Citation Syntax: Bracketed numbers with automatic range collapsing (e.g. [1–3], [3–6, 11–13]) -->
+  <!-- In-text Citation Syntax: Bracketed numbers with automatic range collapsing (e.g. [1–3], [3–6, 11–13])[cite: 2] -->
   <citation collapse="citation-number">
     <sort>
       <key variable="citation-number"/>
@@ -96,14 +96,12 @@
           <text variable="volume" font-weight="bold"/>
           <text variable="issue" prefix=", No. "/>
           <text variable="page" prefix=": "/>
-          <date variable="issued" prefix=" (" suffix=")">
-            <date-part name="year"/>
-          </date>
+          <date variable="issued" prefix=" (" suffix="). "/>
         </if>
 
         <!-- Books / Reports -->
         <else-if type="bill book graphic legal_case legislation motion_picture report song" match="any">
-          <text macro="publisher"/>
+          <text macro="publisher" suffix=". "/>
         </else-if>
 
         <!-- Chapter / Edited Book Parts -->
@@ -113,13 +111,13 @@
           <text macro="publisher"/>
           <text variable="volume" prefix=", Vol. "/>
           <text variable="chapter-number" prefix=", Ch. "/>
-          <text variable="page" prefix=", p. "/>
+          <text variable="page" prefix=", p. " suffix=". "/>
         </else-if>
 
         <!-- Default layout for Thesis, Patents, etc. -->
         <else>
           <text macro="container-title" suffix=", "/>
-          <text macro="publisher"/>
+          <text macro="publisher" suffix=". "/>
           <text variable="page" prefix=", p. "/>
         </else>
       </choose>
@@ -128,7 +126,7 @@
       <text variable="language" prefix=" (" suffix=")"/>
 
       <!-- Digital Object Identifier (DOI)[cite: 1] -->
-      <text macro="access" prefix=";"/>
+      <text macro="access" prefix=" "/>
     </layout>
   </bibliography>
 </style>
