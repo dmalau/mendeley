@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="numeric" version="1.0" demote-non-dropping-particle="sort-only" default-locale="en-US">
+  <info>
+    <title>Progress in Physics of Metals / Custom Numerical Style</title>
+    <id>http://www.zotero.org/styles/custom-progress-in-physics-of-metals</id>
+    <link href="http://www.zotero.org/styles/custom-progress-in-physics-of-metals" rel="self"/>
+    <category citation-format="numeric"/>
+    <category field="physics"/>
+    <updated>2026-01-01T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+
+  <!-- Author formatting rules -->
+  <macro name="author">
+    <names variable="author">
+      <!-- Initials precede names, no space between initials[cite: 1] -->
+      <name initialize-with="." initialize-with-hyphen="false" name-as-sort-order="first" and="text" delimiter=", " delimiter-precedes-last="always"/>
+      <label form="short" prefix=" (" suffix=")"/>
+      <substitute>
+        <names variable="editor"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="editor">
+    <names variable="editor" prefix=" (Eds. " suffix=")">
+      <name initialize-with="." initialize-with-hyphen="false" and="text" delimiter=", " delimiter-precedes-last="always"/>
+    </names>
+  </macro>
+
+  <!-- Title formatting: Title in sentence/title case, non-italicised[cite: 1] -->
+  <macro name="title">
+    <choose>
+      <if type="bill book graphic legal_case legislation motion_picture report song thesis" match="none">
+        <text variable="title" text-case="title"/>
+      </if>
+      <else>
+        <text variable="title" font-style="italic" text-case="title"/>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- Container/Journal Title (Italics, Title Case)[cite: 1] -->
+  <macro name="container-title">
+    <text variable="container-title" font-style="italic" text-case="title"/>
+  </macro>
+
+  <!-- Publication/Publisher details -->
+  <macro name="publisher">
+    <group prefix="(" suffix=")" delimiter=": ">
+      <text variable="publisher-place"/>
+      <text variable="publisher"/>
+      <date variable="issued">
+        <date-part name="year"/>
+      </date>
+    </group>
+  </macro>
+
+  <!-- DOI handling: Appended as https://doi.org/... without a full stop at the end[cite: 1] -->
+  <macro name="access">
+    <choose>
+      <if variable="DOI">
+        <text variable="DOI" prefix=" https://doi.org/"/>
+      </if>
+    </choose>
+  </macro>
+
+  <!-- In-text Citation Syntax: Bracketed numbers with automatic range collapsing (e.g. [1–3], [3–6, 11–13]) -->
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="[" suffix="]" delimiter=", ">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <!-- Bibliography Formatting -->
+  <bibliography second-field-align="flush" entry-spacing="0">
+    <layout>
+      <!-- Reference number in bibliography list without brackets[cite: 1] -->
+      <text variable="citation-number" suffix=". "/>
+      
+      <!-- Authors list (No et al., all initials precede last name)[cite: 1] -->
+      <text macro="author" suffix=", "/>
+      
+      <!-- Article / Entry Title[cite: 1] -->
+      <text macro="title" suffix=", "/>
+
+      <!-- Item Type Specific Layout -->
+      <choose>
+        <!-- Journal Articles -->
+        <if type="article-journal article-magazine" match="any">
+          <text macro="container-title" suffix=", "/>
+          <!-- Volume in Bold[cite: 1] -->
+          <text variable="volume" font-weight="bold"/>
+          <text variable="issue" prefix=", No. "/>
+          <text variable="page" prefix=": "/>
+          <date variable="issued" prefix=" (" suffix=")">
+            <date-part name="year"/>
+          </date>
+        </if>
+
+        <!-- Books / Reports -->
+        <else-if type="bill book graphic legal_case legislation motion_picture report song" match="any">
+          <text macro="publisher"/>
+        </else-if>
+
+        <!-- Chapter / Edited Book Parts -->
+        <else-if type="chapter paper-conference" match="any">
+          <text macro="container-title"/>
+          <text macro="editor" suffix=" "/>
+          <text macro="publisher"/>
+          <text variable="volume" prefix=", Vol. "/>
+          <text variable="chapter-number" prefix=", Ch. "/>
+          <text variable="page" prefix=", p. "/>
+        </else-if>
+
+        <!-- Default layout for Thesis, Patents, etc. -->
+        <else>
+          <text macro="container-title" suffix=", "/>
+          <text macro="publisher"/>
+          <text variable="page" prefix=", p. "/>
+        </else>
+      </choose>
+
+      <!-- Language note, if specified (e.g., (in Russian))[cite: 1] -->
+      <text variable="language" prefix=" (" suffix=")"/>
+
+      <!-- Digital Object Identifier (DOI)[cite: 1] -->
+      <text macro="access" prefix=";"/>
+    </layout>
+  </bibliography>
+</style>
