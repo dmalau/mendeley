@@ -30,7 +30,7 @@
     <names variable="author">
       <name initialize-with="."
             delimiter=", "
-            delimiter-precedes-last="always"
+            delimiter-precedes-last="never"
             and="text"/>
       <substitute>
         <text variable="title" text-case="title"/>
@@ -163,8 +163,11 @@
     </group>
   </macro>
 
-  <!-- In-text citations: [1], [2], [3] and [1, 2, 3]. -->
-  <citation collapse="citation-number" after-collapse-delimiter=", ">
+<!-- In-text Citation Syntax: Bracketed numbers with automatic range collapsing (e.g. [1–3], [3–6, 11–13]) -->
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
     <layout prefix="[" suffix="]" delimiter=", ">
       <text variable="citation-number"/>
     </layout>
