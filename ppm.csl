@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl"
+       version="1.0.2"
+       class="in-text"
+       default-locale="en-US">
+  <info>
+    <title>References - Prog. Phys. Met. Style</title>
+    <title-short>PPM References</title-short>
+    <id>https://www.zotero.org/styles/ppm-references-custom</id>
+    <link href="http://www.zotero.org/styles/ppm-references-custom" rel="self"/>
+    <updated>2026-09-23T00:00:00+00:00</updated>
+    <author>
+      <name>Custom CSL style based on the supplied reference rules</name>
+    </author>
+    <summary>
+      Numeric bibliography style based on the supplied reference examples.
+    </summary>
+  </info>
+
+  <locale xml:lang="en">
+    <terms>
+      <term name="and">and</term>
+      <term name="editor" form="short">Ed.</term>
+    </terms>
+  </locale>
+
+  <!-- Authors: initials before surname, no spaces between initials,
+       all authors shown, and "and" before the final author. -->
+  <macro name="author">
+    <names variable="author">
+      <name initialize-with="."
+            delimiter=", "
+            delimiter-precedes-last="always"
+            and="text"/>
+      <substitute>
+        <text variable="title" text-case="title"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="editor">
+    <names variable="editor">
+      <name initialize-with="."
+            delimiter=", "
+            delimiter-precedes-last="always"
+            and="text"/>
+    </names>
+  </macro>
+
+  <macro name="doi">
+    <text variable="DOI" prefix="https://doi.org/"/>
+  </macro>
+
+  <!-- Journal:
+       Prog. Phys. Met., 22, No. 4: 481 (2021). -->
+  <macro name="journal">
+    <choose>
+      <if variable="container-title-short">
+        <text variable="container-title-short" font-style="italic"/>
+      </if>
+      <else>
+        <text variable="container-title" font-style="italic"/>
+      </else>
+    </choose>
+    <group delimiter="">
+      <text variable="volume" prefix=", " font-weight="bold"/>
+      <text variable="issue" prefix=", No. "/>
+      <text variable="page" prefix=": "/>
+      <date variable="issued" prefix=" (" suffix=").">
+        <date-part name="year"/>
+      </date>
+    </group>
+  </macro>
+
+  <macro name="book-publisher">
+    <group prefix="(" suffix=").">
+      <text variable="publisher-place"/>
+      <text variable="publisher" prefix=": "/>
+      <date variable="issued" prefix=": ">
+        <date-part name="year"/>
+      </date>
+    </group>
+  </macro>
+
+  <macro name="journal-reference">
+    <text macro="author" suffix=", "/>
+    <text variable="title" text-case="title" suffix=", "/>
+    <text macro="journal"/>
+  </macro>
+
+  <macro name="book-reference">
+    <text macro="author" suffix=", "/>
+    <text variable="title" text-case="title" font-style="italic" suffix=" "/>
+    <text macro="book-publisher"/>
+  </macro>
+
+  <!-- Book chapter / edited volume. -->
+  <macro name="chapter-reference">
+    <text macro="author" suffix=", "/>
+    <text variable="title" text-case="title" suffix=", "/>
+    <text variable="container-title" text-case="title" font-style="italic" suffix=" "/>
+
+    <group prefix="(" suffix=")." delimiter=", ">
+      <group>
+        <text value="Eds. "/>
+        <text macro="editor"/>
+      </group>
+      <group delimiter=": ">
+        <text variable="publisher-place"/>
+        <group delimiter=": ">
+          <text variable="publisher"/>
+          <date variable="issued">
+            <date-part name="year"/>
+          </date>
+        </group>
+      </group>
+      <text variable="volume" prefix="Vol. "/>
+      <text variable="chapter" prefix="Ch. "/>
+      <text variable="page" prefix="p. "/>
+    </group>
+  </macro>
+
+  <!-- Conference proceedings. -->
+  <macro name="proceedings-reference">
+    <text macro="author" suffix=", "/>
+    <text variable="title" text-case="title" suffix=", "/>
+    <text variable="event-title" prefix="Proc. of "/>
+    <group prefix=" (" suffix=").">
+      <text variable="publisher-place"/>
+      <text variable="publisher" prefix=": "/>
+      <date variable="issued" prefix=": ">
+        <date-part name="year"/>
+      </date>
+    </group>
+    <text variable="volume" prefix=", Vol. "/>
+    <text variable="page" prefix=", p. "/>
+  </macro>
+
+  <!-- Thesis/dissertation. -->
+  <macro name="thesis-reference">
+    <text macro="author" suffix=", "/>
+    <text variable="title" text-case="title" font-style="italic" suffix=" "/>
+    <group prefix="(" suffix=")." delimiter=": ">
+      <text variable="genre"/>
+      <text variable="publisher-place"/>
+      <text variable="publisher"/>
+      <date variable="issued">
+        <date-part name="year"/>
+      </date>
+    </group>
+  </macro>
+
+  <!-- Patent. -->
+  <macro name="patent-reference">
+    <text macro="author" suffix=", "/>
+    <text variable="title" text-case="title" suffix=", "/>
+    <text variable="number" prefix="Patent "/>
+    <group prefix=" (" suffix=")." delimiter=": ">
+      <text variable="publisher-place"/>
+      <date variable="issued">
+        <date-part name="year"/>
+      </date>
+    </group>
+  </macro>
+
+  <!-- In-text citations: [1], [2], [3] and [1, 2, 3]. -->
+  <citation collapse="citation-number" after-collapse-delimiter=", ">
+    <layout prefix="[" suffix="]" delimiter=", ">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <!-- Bibliography numbers are 1., 2., 3. rather than [1], [2], [3].
+       DOI is appended without a final period. -->
+  <bibliography hanging-indent="true"
+                entry-spacing="0"
+                line-spacing="1">
+    <layout>
+      <text variable="citation-number" suffix=". "/>
+
+      <choose>
+        <if type="article-journal">
+          <text macro="journal-reference"/>
+        </if>
+
+        <else-if type="chapter">
+          <text macro="chapter-reference"/>
+        </else-if>
+
+        <else-if type="paper-conference">
+          <text macro="proceedings-reference"/>
+        </else-if>
+
+        <else-if type="book">
+          <text macro="book-reference"/>
+        </else-if>
+
+        <else-if type="thesis">
+          <text macro="thesis-reference"/>
+        </else-if>
+
+        <else-if type="patent">
+          <text macro="patent-reference"/>
+        </else-if>
+
+        <else>
+          <text macro="book-reference"/>
+        </else>
+      </choose>
+
+      <text macro="doi" prefix=" "/>
+    </layout>
+  </bibliography>
+</style>
