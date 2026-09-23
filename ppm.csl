@@ -30,7 +30,7 @@
     <names variable="author">
       <name initialize-with="."
             delimiter=", "
-            delimiter-precedes-last="never"
+            delimiter-precedes-last="contextual"
             and="text"/>
       <substitute>
         <text variable="title" text-case="title"/>
